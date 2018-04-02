@@ -11,15 +11,31 @@ bash rapture-setup.sh
 
 ## Desktop wallet setup  
 
-After the MN is up and running, you need to configure the desktop wallet accordingly. Here are the steps:  
-1. Open the RAPTURE Desktop Wallet.  
-2. Go to RECEIVE and create a New Address: **MN1**  
-3. Send **1000** RAP to **MN1**. You need to send all 1000 coins in one single transaction.
-4. Wait for 15 confirmations.  
-5. Go to **Help -> "Debug Window - Console"**  
-6. Type the following command: **masternode outputs**  
-7. Go to  **Tools -> "Open Masternode Configuration File"**
-8. Add the following entry:
+The first step involves sending exactly 1,000 Rapture to a new wallet address. You’ll want to have a small
+amount above 1,000 Rapture to cover the transaction fee, so you’ll need to have a starting balance of at least,
+say 1,001.00 Rapture. First, we’ll create a new wallet address to hold the 1,000 collateral. This will also be the
+address that the masternode rewards are sent to.
+
+1.  Open the RAPTURE Desktop Wallet
+2.  Go to "RECEIVE"
+3.  Label: **MN1**
+4.  Amount: **1000**
+5.  Copy address and Close and Exit this dialog
+6.  Go to **SEND**
+7.  "Pay To": Strg+V or right mouse "Paste"
+8.  IMPORTANT: Don't check any checkbox!
+9.  Send with **Send** and confirm with **Yes**
+10. Wait for 15 confirmations
+11. Go to **Settings-> Options-> Wallet-> Show Masternodes Tab** 
+    Click Ok to apply the setting and then close and re-open your local wallet. After re-opening, you should see the
+    Masternodes tab which will display the full list of masternodes on the network, as well as masternodes
+    associated with your local wallet (My Masternodes is probably empty because we haven’t added one yet).
+12. Go to **Help -> "Debug Window - Console"**
+13. Type the following command: **masternode outputs** 
+14. Type the following command: **masternode genkey**
+    *This two outputs are your own secret. Tell nobody this numbers!*
+15. Go to  **Tools -> "Open Masternode Configuration File"**
+16. Add the following entry:
 ```
 Alias Address Privkey TxHash TxIndex
 ```
