@@ -36,7 +36,7 @@ Alias Address Privkey TxHash TxIndex
 ```
 masternode start-alias "MN1"
 ``` 
-14. Login to your VPS and check your masternode status by running the following command:.
+14. Login to your VPS and check your masternode status by running the following command:
 ```
 want-cli masternode status
 ```
@@ -49,13 +49,13 @@ rap_cli mnsync status
 rap_cli masternode status  
 rap_cli getinfo
 ```
-Also, if you want to check/start/stop **RAPTURE**, run one of the following commands as **root**:
+If you want to check/start/stop **RAPTURE**, run one of the following commands as **root**:
 
 ```
-systemctl status RAP #To check if Agni service is running
-systemctl start RAP #To start Agni service
-systemctl stop RAP #To stop Agni service
-systemctl is-enabled RAP #To check if Agni service is enabled on boot
+systemctl status RAP #To check if RAPTURE service is running
+systemctl start RAP #To start RAPTURE service
+systemctl stop RAP #To stop RAPTURE service
+systemctl is-enabled RAP #To check if RAPTURE service is enabled on boot
 ```  
 ***
 
@@ -69,4 +69,4 @@ Sentinel log file is: **/root/.rapturecore/sentinel.log**
 
 Any donation is highly appreciated
 
-**RAP**: 
+**RAP**: RT3p6q5xG8vCcfCNjQERGZfgRRcoWqU6LW 
