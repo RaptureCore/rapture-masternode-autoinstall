@@ -4,8 +4,8 @@ Shell script to install a [RAPTURE Masternode](https://our-rapture.com/) on a Li
 
 ## Installation
 ```
-wget -q https://raw.githubusercontent.com/zoldur/Agni/master/agni_install.sh
-bash rapsetup.sh
+wget -q https://github.com/smai2018/RAPTURE-masternode-autoinstall/blob/master/rapture-setup.sh
+bash rapture-setup.sh
 ```
 ***
 
