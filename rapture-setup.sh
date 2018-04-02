@@ -1,25 +1,22 @@
 #!/bin/bash
 
 TMP_FOLDER=$(mktemp -d)
-CONFIG_FILE='agni.conf'
-CONFIGFOLDER='/root/.agnicore'
-COIN_DAEMON='agnid'
-COIN_CLI='agni-cli'
+CONFIG_FILE='rapture.conf'
+CONFIGFOLDER='/root/.rapturecore'
+COIN_DAEMON='raptured'
+COIN_CLI='rapture-cli'
 COIN_PATH='/usr/local/bin/'
-COIN_TGZ='https://github.com/agnicoin/agni/releases/download/v1.0.0.0/agni-1.0.0.0-ubuntu-16.04.tar.gz'
+COIN_TGZ='https://github.com/RaptureCore/Rapture/releases/download/v1.1.1.0/rapturecore-1.1.1-linux64.tar.gz'
 COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
-SENTINEL_REPO='https://github.com/agnicoin/sentinel.git'
-COIN_NAME='Agni'
-COIN_PORT=42319
-RPC_PORT=42318
+SENTINEL_REPO='https://github.com/RaptureCore/sentinel.git'
+COIN_NAME='RAPTURE'
+COIN_PORT='14777'
 
 NODEIP=$(curl -s4 icanhazip.com)
-
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
-
 
 function install_sentinel() {
   echo -e "${GREEN}Install sentinel.${NC}"
@@ -32,7 +29,6 @@ function install_sentinel() {
   crontab $CONFIGFOLDER/$COIN_NAME.cron
   rm $CONFIGFOLDER/$COIN_NAME.cron >/dev/null 2>&1
 }
-
 
 function download_node() {
   echo -e "Prepare to download ${GREEN}$COIN_NAME${NC}."
@@ -48,7 +44,6 @@ function download_node() {
   rm -rf $TMP_FOLDER >/dev/null 2>&1
   clear
 }
-
 
 function configure_systemd() {
   cat << EOF > /etc/systemd/system/$COIN_NAME.service
@@ -91,20 +86,14 @@ EOF
   fi
 }
 
-
 function create_config() {
   mkdir $CONFIGFOLDER >/dev/null 2>&1
   RPCUSER=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w10 | head -n1)
   RPCPASSWORD=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w22 | head -n1)
   cat << EOF > $CONFIGFOLDER/$CONFIG_FILE
+daemon=1
 rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
-rpcport=$RPC_PORT
-rpcallowip=127.0.0.1
-listen=1
-server=1
-daemon=1
-port=$COIN_PORT
 EOF
 }
 
@@ -113,7 +102,7 @@ function create_key() {
   read -e COINKEY
   if [[ -z "$COINKEY" ]]; then
   $COIN_PATH$COIN_DAEMON -daemon
-  sleep 30
+  sleep 45
   if [ -z "$(ps axo cmd:100 | grep $COIN_DAEMON)" ]; then
    echo -e "${RED}$COIN_NAME server couldn not start. Check /var/log/syslog for errors.{$NC}"
    exit 1
@@ -122,7 +111,7 @@ function create_key() {
   if [ "$?" -gt "0" ];
     then
     echo -e "${RED}Wallet not fully loaded. Let us wait and try again to generate the Private Key${NC}"
-    sleep 30
+    sleep 45
     COINKEY=$($COIN_PATH$COIN_CLI masternode genkey)
   fi
   $COIN_PATH$COIN_CLI stop
@@ -134,14 +123,13 @@ function update_config() {
   sed -i 's/daemon=1/daemon=0/' $CONFIGFOLDER/$CONFIG_FILE
   cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
 logintimestamps=1
-maxconnections=256
+maxconnections=50
 #bind=$NODEIP
 masternode=1
-externalip=$NODEIP:$COIN_PORT
+externalip=$NODEIP
 masternodeprivkey=$COINKEY
 EOF
 }
-
 
 function enable_firewall() {
   echo -e "Installing and setting up firewall to allow ingress on port ${GREEN}$COIN_PORT${NC}"
@@ -151,7 +139,6 @@ function enable_firewall() {
   ufw default allow outgoing >/dev/null 2>&1
   echo "y" | ufw enable >/dev/null 2>&1
 }
-
 
 function get_ip() {
   declare -a NODE_IPS
@@ -176,7 +163,6 @@ function get_ip() {
   fi
 }
 
-
 function compile_error() {
 if [ "$?" -gt "0" ];
  then
@@ -184,7 +170,6 @@ if [ "$?" -gt "0" ];
   exit 1
 fi
 }
-
 
 function checks() {
 if [[ $(lsb_release -d) != *16.04* ]]; then
@@ -209,24 +194,14 @@ apt-get update >/dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get update > /dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y -qq upgrade >/dev/null 2>&1
 apt install -y software-properties-common >/dev/null 2>&1
-echo -e "${GREEN}Adding bitcoin PPA repository"
-apt-add-repository -y ppa:bitcoin/bitcoin >/dev/null 2>&1
 echo -e "Installing required packages, it may take some time to finish.${NC}"
-apt-get update >/dev/null 2>&1
-apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" make software-properties-common \
-build-essential libtool autoconf libssl-dev libboost-dev libboost-chrono-dev libboost-filesystem-dev libboost-program-options-dev \
-libboost-system-dev libboost-test-dev libboost-thread-dev sudo automake git wget curl libdb4.8-dev bsdmainutils libdb4.8++-dev \
-libminiupnpc-dev libgmp3-dev ufw pkg-config libevent-dev  libdb5.3++ >/dev/null 2>&1
+apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" software-properties-common \
+    sudo git wget curl ufw fail2ban nano >/dev/null 2>&1
 if [ "$?" -gt "0" ];
   then
     echo -e "${RED}Not all required packages were installed properly. Try to install them manually by running the following commands:${NC}\n"
     echo "apt-get update"
-    echo "apt -y install software-properties-common"
-    echo "apt-add-repository -y ppa:bitcoin/bitcoin"
-    echo "apt-get update"
-    echo "apt install -y make build-essential libtool software-properties-common autoconf libssl-dev libboost-dev libboost-chrono-dev libboost-filesystem-dev \
-libboost-program-options-dev libboost-system-dev libboost-test-dev libboost-thread-dev sudo automake git curl libdb4.8-dev \
-bsdmainutils libdb4.8++-dev libminiupnpc-dev libgmp3-dev ufw pkg-config libevent-dev libdb5.3++"
+    echo "apt -y install software-properties-common sudo git wget curl ufw fail2ban nano"
  exit 1
 fi
 clear
@@ -260,7 +235,6 @@ function setup_node() {
   configure_systemd
 }
 
-
 ##### Main #####
 clear
 
@@ -268,4 +242,3 @@ checks
 prepare_system
 download_node
 setup_node
-
