@@ -1,13 +1,11 @@
 # RAPTURE
 Shell script to install a [RAPTURE Masternode](https://our-rapture.com/) on a Linux server running Ubuntu 16.04. Use it on your own risk.
-***
 
 ## Installation
 ```
 wget -q https://github.com/smai2018/RAPTURE-masternode-autoinstall/blob/master/rapture-setup.sh
 bash rapture-setup.sh
 ```
-***
 
 ## Desktop wallet setup  
 
@@ -57,7 +55,6 @@ masternode start-alias "MN1"
 want-cli masternode status
 ```
 ***
-***
 
 ## Usage:
 ```
@@ -72,8 +69,7 @@ systemctl status RAP #To check if RAPTURE service is running
 systemctl start RAP #To start RAPTURE service
 systemctl stop RAP #To stop RAPTURE service
 systemctl is-enabled RAP #To check if RAPTURE service is enabled on boot
-```  
-***
+```
 
 ## Sentinel
 
