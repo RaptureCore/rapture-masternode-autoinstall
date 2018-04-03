@@ -3,7 +3,7 @@ Shell script to install a [RAPTURE Masternode](https://our-rapture.com/) on a Li
 
 ## Installation
 ```
-wget -q https://github.com/smai2018/RAPTURE-masternode-autoinstall/blob/master/rapture-setup.sh
+wget https://github.com/smai2018/RAPTURE-masternode-autoinstall/raw/master/rapture-setup.sh
 bash rapture-setup.sh
 ```
 
