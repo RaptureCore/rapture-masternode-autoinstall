@@ -3,8 +3,8 @@
 TMP_FOLDER=$(mktemp -d)
 CONFIG_FILE='rapture.conf'
 CONFIGFOLDER='/root/.rapturecore'
-COIN_DAEMON='/root/$COIN_ZIP/bin/raptured'
-COIN_CLI='/root/$COIN_ZIP/bin/rapture-cli'
+COIN_DAEMON='/rapturecore-1.1.1/bin/raptured'
+COIN_CLI='/rapturecore-1.1.1/bin/rapture-cli'
 COIN_PATH='/usr/local/bin/'
 COIN_TGZ='https://github.com/RaptureCore/Rapture/releases/download/v1.1.1.0/rapturecore-1.1.1-linux64.tar.gz'
 COIN_ZIP='rapturecore-1.1.1'
@@ -37,10 +37,10 @@ function download_node() {
   #cd $TMP_FOLDER >/dev/null 2>&1
   wget $COIN_TGZ
   tar -xvf $COIN_ZIP
-  chmod +x $COIN_DAEMON
-  chmod +x $COIN_CLI
+  #chmod +x $COIN_DAEMON
+  #chmod +x $COIN_CLI
   cp $COIN_DAEMON $COIN_CLI $COIN_PATH
-  cd - >/dev/null 2>&1
+  #cd - >/dev/null 2>&1
   #rm -rf $TMP_FOLDER >/dev/null 2>&1
   clear
 }
