@@ -22,21 +22,22 @@ function install_sentinel() {
   echo -e "${GREEN}Install sentinel.${NC}"
   echo -e "Please be patient and wait a moment..."
   apt-get -y install python-virtualenv virtualenv >/dev/null 2>&1
-  git clone $SENTINEL_REPO $CONFIGFOLDER/sentinel >/dev/null 2>&1
-  cd $CONFIGFOLDER/sentinel
+  git clone $SENTINEL_REPO >/dev/null 2>&1
+  cd sentinel
   virtualenv ./venv >/dev/null 2>&1
   ./venv/bin/pip install -r requirements.txt >/dev/null 2>&1
-  echo  "* * * * * cd $CONFIGFOLDER/sentinel && ./venv/bin/python bin/sentinel.py >> $CONFIGFOLDER/sentinel.log 2>&1" > $CONFIGFOLDER/$COIN_NAME.cron
-  crontab $CONFIGFOLDER/$COIN_NAME.cron
-  rm $CONFIGFOLDER/$COIN_NAME.cron >/dev/null 2>&1
+  echo  "* * * * * cd sentinel && ./venv/bin/python bin/sentinel.py >> sentinel.log 2>&1" > $COIN_NAME.cron
+  crontab $COIN_NAME.cron
+  rm $COIN_NAME.cron >/dev/null 2>&1
 }
 
 function download_node() {
-  echo -e "Prepare to download ${GREEN}$COIN_NAME${NC}."
+  echo -e "Prepare to download ${GREEN}$COIN_NAME${NC}"
+  echo -e "Please be patient and wait a moment..."
   cd $TMP_FOLDER >/dev/null 2>&1
-  wget -q $COIN_TGZ
+  wget $COIN_TGZ
   compile_error
-  tar xvzf $COIN_ZIP >/dev/null 2>&1
+  tar -xvf $COIN_ZIP >/dev/null 2>&1
   compile_error
   chmod +x $COIN_DAEMON
   chmod +x $COIN_CLI
@@ -57,7 +58,6 @@ User=root
 Group=root
 
 Type=forking
-#PIDFile=$CONFIGFOLDER/$COIN_NAME.pid
 
 ExecStart=$COIN_PATH$COIN_DAEMON -daemon -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER
 ExecStop=-$COIN_PATH$COIN_CLI -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER stop
@@ -131,7 +131,7 @@ EOF
 }
 
 function enable_firewall() {
-  echo -e "Installing and setting up firewall to allow ingress on port ${GREEN}$COIN_PORT${NC}"
+  echo -e "Installing and setting up firewall"
   ufw allow $COIN_PORT/tcp comment "$COIN_NAME MN port" >/dev/null
   ufw allow ssh comment "SSH" >/dev/null 2>&1
   ufw limit ssh/tcp >/dev/null 2>&1
