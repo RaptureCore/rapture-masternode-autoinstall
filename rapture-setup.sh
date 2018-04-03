@@ -1,11 +1,10 @@
 #!/bin/bash
 
-TMP_FOLDER=$(mktemp -d)
 CONFIG_FILE='rapture.conf'
 CONFIGFOLDER='/root/.rapturecore'
 COIN_DAEMON='/rapturecore-1.1.1/bin/raptured'
 COIN_CLI='/rapturecore-1.1.1/bin/rapture-cli'
-COIN_PATH='/usr/local/bin/'
+COIN_PATH='/usr/local/bin'
 COIN_TGZ='https://github.com/RaptureCore/Rapture/releases/download/v1.1.1.0/rapturecore-1.1.1-linux64.tar.gz'
 COIN_ZIP='rapturecore-1.1.1'
 SENTINEL_REPO='https://github.com/RaptureCore/sentinel.git'
@@ -19,8 +18,10 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 function install_sentinel() {
-  echo -e "${GREEN}Install sentinel.${NC}"
+  echo -e "------------------------------------------------------------------"
+  echo -e "${GREEN}Install sentinel...${NC}"
   echo -e "Please be patient and wait a moment..."
+  echo -e "------------------------------------------------------------------"
   apt-get -y install python-virtualenv virtualenv >/dev/null 2>&1
   git clone $SENTINEL_REPO >/dev/null 2>&1
   cd sentinel
@@ -32,16 +33,18 @@ function install_sentinel() {
 }
 
 function download_node() {
-  echo -e "Prepare to download ${GREEN}$COIN_NAME${NC}"
+  echo -e "------------------------------------------------------------------"
+  echo -e "${GREEN}Prepare to download $COIN_NAME${NC}"
   echo -e "Please be patient and wait a moment..."
-  #cd $TMP_FOLDER >/dev/null 2>&1
-  wget $COIN_TGZ
+  echo -e "------------------------------------------------------------------"
+  #wget $COIN_TGZ
+  clear
   #tar -xvf $COIN_ZIP
   #chmod +x $COIN_DAEMON
   #chmod +x $COIN_CLI
   cp $COIN_DAEMON $COIN_CLI $COIN_PATH
   #cd - >/dev/null 2>&1
-  #rm -rf $TMP_FOLDER >/dev/null 2>&1
+  #rm rapturecore-1.1.1-linux64.tar.gz >/dev/null 2>&1
   clear
 }
 
@@ -57,8 +60,8 @@ Group=root
 
 Type=forking
 
-ExecStart=$COIN_PATH$COIN_DAEMON -daemon -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER
-ExecStop=-$COIN_PATH$COIN_CLI -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER stop
+ExecStart=$COIN_PATH$COIN_DAEMON
+ExecStop=-$COIN_PATH$COIN_CLI stop
 
 Restart=always
 PrivateTmp=true
@@ -72,15 +75,17 @@ WantedBy=multi-user.target
 EOF
 
   systemctl daemon-reload
-  sleep 3
+  sleep 4
   systemctl start $COIN_NAME.service
   systemctl enable $COIN_NAME.service >/dev/null 2>&1
 
   if [[ -z "$(ps axo cmd:100 | egrep $COIN_DAEMON)" ]]; then
+    echo -e "------------------------------------------------------------------------------------------------------------------------"
     echo -e "${RED}$COIN_NAME is not running${NC}, please investigate. You should start by running the following commands as root:"
-    echo -e "${GREEN}systemctl start $COIN_NAME.service"
+    echo -e "systemctl start $COIN_NAME.service"
     echo -e "systemctl status $COIN_NAME.service"
-    echo -e "less /var/log/syslog${NC}"
+    echo -e "less /var/log/syslog"
+    echo -e "------------------------------------------------------------------------------------------------------------------------"
     exit 1
   fi
 }
@@ -97,30 +102,30 @@ EOF
 }
 
 function create_key() {
-  echo -e "Enter your ${RED}$COIN_NAME Masternode Private Key${NC} and press Enter. Leave it blank to generate a new ${RED}Masternode Private Key${NC} for you:"
+  echo -e "Enter your ${RED}$COIN_NAME Masternode Private Key${NC} and press Enter:"
   read -e COINKEY
-  if [[ -z "$COINKEY" ]]; then
-  $COIN_PATH$COIN_DAEMON -daemon
-  sleep 45
-  if [ -z "$(ps axo cmd:100 | grep $COIN_DAEMON)" ]; then
-   echo -e "${RED}$COIN_NAME server couldn not start. Check /var/log/syslog for errors.{$NC}"
-   exit 1
-  fi
-  COINKEY=$($COIN_PATH$COIN_CLI masternode genkey)
-  if [ "$?" -gt "0" ];
-    then
-    echo -e "${RED}Wallet not fully loaded. Let us wait and try again to generate the Private Key${NC}"
-    sleep 45
-    COINKEY=$($COIN_PATH$COIN_CLI masternode genkey)
-  fi
-  $COIN_PATH$COIN_CLI stop
-fi
+  #if [[ -z "$COINKEY" ]]; then
+  #$COIN_PATH$COIN_DAEMON -daemon
+  #sleep 45
+  #if [ -z "$(ps axo cmd:100 | grep $COIN_DAEMON)" ]; then
+  # echo -e "${RED}$COIN_NAME server couldn not start. Check /var/log/syslog for errors.{$NC}"
+  # exit 1
+  #fi
+  #COINKEY=$($COIN_PATH$COIN_CLI masternode genkey)
+  #if [ "$?" -gt "0" ];
+  #  then
+  #  echo -e "${RED}Wallet not fully loaded. Let us wait and try again to generate the Private Key${NC}"
+  #  sleep 45
+  #  COINKEY=$($COIN_PATH$COIN_CLI masternode genkey)
+  #fi
+  #$COIN_PATH$COIN_CLI stop
+#fi
 clear
 }
 
 function update_config() {
-  sed -i 's/daemon=1/daemon=0/' $CONFIGFOLDER/$CONFIG_FILE
-  cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
+  #sed -i 's/daemon=1/daemon=0/' $CONFIGFOLDER/$CONFIG_FILE
+  #cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
 maxconnections=50
 masternode=1
 externalip=$NODEIP
@@ -129,7 +134,9 @@ EOF
 }
 
 function enable_firewall() {
-  echo -e "Installing and setting up firewall"
+  echo -e "------------------------------------------------------------------"
+  echo -e "${GREEN}Installing and setting up firewall${NC}"
+  echo -e "------------------------------------------------------------------"
   ufw allow $COIN_PORT/tcp comment "$COIN_NAME MN port" >/dev/null
   ufw allow ssh comment "SSH" >/dev/null 2>&1
   ufw limit ssh/tcp >/dev/null 2>&1
@@ -146,11 +153,13 @@ function get_ip() {
 
   if [ ${#NODE_IPS[@]} -gt 1 ]
     then
-      echo -e "${GREEN}More than one IP. Please type 0 to use the first IP, 1 for the second and so on...${NC}"
+      echo -e "-----------------------------------------------------------------------------------------------"
+      echo -e "${RED}More than one IP. Please type 0 to use the first IP, 1 for the second and so on...${NC}"
       INDEX=0
       for ip in "${NODE_IPS[@]}"
       do
         echo ${INDEX} $ip
+      echo -e "-----------------------------------------------------------------------------------------------"  
         let INDEX=${INDEX}+1
       done
       read -e choose_ip
@@ -163,41 +172,59 @@ function get_ip() {
 function compile_error() {
 if [ "$?" -gt "0" ];
  then
+  echo -e "------------------------------------------------------------------"
   echo -e "${RED}Failed to compile $COIN_NAME. Please investigate.${NC}"
+  echo -e "------------------------------------------------------------------"
   exit 1
 fi
 }
 
 function checks() {
 if [[ $(lsb_release -d) != *16.04* ]]; then
-  echo -e "${RED}You are not running Ubuntu 16.04. Installation is cancelled.${NC}"
+  echo -e "------------------------------------------------------------------------------"
+  echo -e "${RED}You are not running Ubuntu 16.04. Why? Installation is cancelled.${NC}"
+  echo -e "------------------------------------------------------------------------------"
   exit 1
 fi
 
 if [[ $EUID -ne 0 ]]; then
+   echo -e "------------------------------------------------------------------"
    echo -e "${RED}$0 must be run as root.${NC}"
+   echo -e "------------------------------------------------------------------"
    exit 1
 fi
 
 if [ -n "$(pidof $COIN_DAEMON)" ] || [ -e "$COIN_DAEMOM" ] ; then
-  echo -e "${RED}$COIN_NAME is already installed.${NC}"
+  echo -e "-----------------------------------------------------------------------------------"
+  echo -e "${RED}$COIN_NAME masternode is already installed! Installation is cancelled.${NC}"
+  echo -e "-----------------------------------------------------------------------------------"
   exit 1
 fi
 }
 
 function prepare_system() {
+echo -e "-----------------------------------------------------------------------"
 echo -e "Prepare the system to install ${GREEN}$COIN_NAME${NC} master node."
 echo -e "Please be patient and wait a moment..."
+echo -e "-----------------------------------------------------------------------"
 apt-get update >/dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get update > /dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y -qq upgrade >/dev/null 2>&1
+echo -e "-----------------------------------------------------------------------"
 echo -e "Installing required packages, it may take some time to finish...${NC}"
+echo -e "-----------------------------------------------------------------------"
 apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" sudo git wget curl ufw fail2ban nano >/dev/null 2>&1
+echo -e "-----------------------------------------------------------------------"
+echo -e "Cleaning up unused packages and old stuff..."
+echo -e "-----------------------------------------------------------------------"
+apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 if [ "$?" -gt "0" ];
   then
+    echo -e "----------------------------------------------------------------------------------------------------------------------------------"
     echo -e "${RED}Not all required packages were installed properly. Try to install them manually by running the following commands:${NC}\n"
     echo "apt-get update"
     echo "apt -y install sudo git wget curl ufw fail2ban nano"
+    echo -e "----------------------------------------------------------------------------------------------------------------------------------"
  exit 1
 fi
 clear
@@ -205,18 +232,16 @@ clear
 
 function important_information() {
  echo -e "================================================================================================================================"
- echo -e "$COIN_NAME Masternode is up and running listening on port ${RED}$COIN_PORT${NC}."
+ echo -e "${GREEN}$COIN_NAME Masternode is up and running${NC}."
  echo -e "Configuration file is: ${RED}$CONFIGFOLDER/$CONFIG_FILE${NC}"
- echo -e "Start: ${RED}systemctl start $COIN_NAME.service${NC}"
- echo -e "Stop: ${RED}systemctl stop $COIN_NAME.service${NC}"
- echo -e "VPS_IP:PORT ${RED}$NODEIP:$COIN_PORT${NC}"
- echo -e "MASTERNODE PRIVATEKEY is: ${RED}$COINKEY${NC}"
+ echo -e "Start manuell: systemctl start $COIN_NAME.service"
+ echo -e "Stop manuell: systemctl stop $COIN_NAME.service"
+ echo -e "VPS_IP:PORT $NODEIP:$COIN_PORT"
+ echo -e "MASTERNODE PRIVATEKEY is: $COINKEY"
  echo -e "Please check ${RED}$COIN_NAME${NC} daemon is running with the following command: ${RED}systemctl status $COIN_NAME.service${NC}"
- echo -e "Use ${RED}$COIN_CLI masternode status${NC} to check your MN status."
- if [[ -n $SENTINEL_REPO  ]]; then
-  echo -e "${RED}Sentinel${NC} is installed in ${RED}$CONFIGFOLDER/sentinel${NC}"
-  echo -e "Sentinel logs is: ${RED}$CONFIGFOLDER/sentinel.log${NC}"
- fi
+ echo -e "Use ${RED}$COIN_CLI masternode status${NC} to check your Masternode status."
+ echo -e "${GREEN}Sentinel is installed in root/sentinel${NC}"
+ echo -e "Sentinel logs: root/sentinel.log"
  echo -e "================================================================================================================================"
 }
 
@@ -233,7 +258,6 @@ function setup_node() {
 
 ##### Main #####
 clear
-
 checks
 prepare_system
 download_node
