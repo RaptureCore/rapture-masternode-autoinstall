@@ -36,7 +36,7 @@ function download_node() {
   echo -e "Please be patient and wait a moment..."
   #cd $TMP_FOLDER >/dev/null 2>&1
   wget $COIN_TGZ
-  tar -xvf $COIN_ZIP >/dev/null 2>&1
+  tar -xvf rapturecore-1.1.1-linux64.tar.gz
   chmod +x $COIN_DAEMON
   chmod +x $COIN_CLI
   cp $COIN_DAEMON $COIN_CLI $COIN_PATH
