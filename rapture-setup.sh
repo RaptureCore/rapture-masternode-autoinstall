@@ -3,11 +3,11 @@
 TMP_FOLDER=$(mktemp -d)
 CONFIG_FILE='rapture.conf'
 CONFIGFOLDER='/root/.rapturecore'
-COIN_DAEMON='raptured'
-COIN_CLI='rapture-cli'
+COIN_DAEMON='/root/$COIN_ZIP/bin/raptured'
+COIN_CLI='/root/$COIN_ZIP/bin/rapture-cli'
 COIN_PATH='/usr/local/bin/'
 COIN_TGZ='https://github.com/RaptureCore/Rapture/releases/download/v1.1.1.0/rapturecore-1.1.1-linux64.tar.gz'
-COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
+COIN_ZIP='rapturecore-1.1.1'
 SENTINEL_REPO='https://github.com/RaptureCore/sentinel.git'
 COIN_NAME='RAPTURE'
 COIN_PORT='14777'
@@ -36,7 +36,7 @@ function download_node() {
   echo -e "Please be patient and wait a moment..."
   #cd $TMP_FOLDER >/dev/null 2>&1
   wget $COIN_TGZ
-  tar -xvf rapturecore-1.1.1-linux64.tar.gz
+  tar -xvf $COIN_ZIP
   chmod +x $COIN_DAEMON
   chmod +x $COIN_CLI
   cp $COIN_DAEMON $COIN_CLI $COIN_PATH
