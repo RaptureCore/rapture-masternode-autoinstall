@@ -34,7 +34,7 @@ function install_sentinel() {
 function download_node() {
   echo -e "Prepare to download ${GREEN}$COIN_NAME${NC}"
   echo -e "Please be patient and wait a moment..."
-  cd $TMP_FOLDER >/dev/null 2>&1
+  #cd $TMP_FOLDER >/dev/null 2>&1
   wget $COIN_TGZ
   tar -xvf $COIN_ZIP >/dev/null 2>&1
   chmod +x $COIN_DAEMON
