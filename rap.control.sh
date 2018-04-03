@@ -14,7 +14,8 @@ do
      systemctl status RAPTURE.service
      ((counter+=1))
      ;;
-  r) systemctl status RAPTURE.service
+  r) systemctl is-active RAPTURE.service
+     systemctl is-enabled RAPTURE.service
      ((counter+=1))
      ;;
   s) /root/rapturecore-1.1.1/bin/rapture-cli mnsync status
