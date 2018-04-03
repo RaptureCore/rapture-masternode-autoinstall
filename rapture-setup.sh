@@ -20,6 +20,7 @@ NC='\033[0m'
 
 function install_sentinel() {
   echo -e "${GREEN}Install sentinel.${NC}"
+  echo -e "Please be patient and wait a moment..."
   apt-get -y install python-virtualenv virtualenv >/dev/null 2>&1
   git clone $SENTINEL_REPO $CONFIGFOLDER/sentinel >/dev/null 2>&1
   cd $CONFIGFOLDER/sentinel
@@ -98,7 +99,7 @@ EOF
 }
 
 function create_key() {
-  echo -e "Enter your ${RED}$COIN_NAME Masternode Private Key${NC}. Leave it blank to generate a new ${RED}Masternode Private Key${NC} for you:"
+  echo -e "Enter your ${RED}$COIN_NAME Masternode Private Key${NC} and press Enter. Leave it blank to generate a new ${RED}Masternode Private Key${NC} for you:"
   read -e COINKEY
   if [[ -z "$COINKEY" ]]; then
   $COIN_PATH$COIN_DAEMON -daemon
@@ -122,9 +123,7 @@ clear
 function update_config() {
   sed -i 's/daemon=1/daemon=0/' $CONFIGFOLDER/$CONFIG_FILE
   cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
-logintimestamps=1
 maxconnections=50
-#bind=$NODEIP
 masternode=1
 externalip=$NODEIP
 masternodeprivkey=$COINKEY
@@ -190,18 +189,17 @@ fi
 
 function prepare_system() {
 echo -e "Prepare the system to install ${GREEN}$COIN_NAME${NC} master node."
+echo -e "Please be patient and wait a moment..."
 apt-get update >/dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get update > /dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y -qq upgrade >/dev/null 2>&1
-apt install -y software-properties-common >/dev/null 2>&1
-echo -e "Installing required packages, it may take some time to finish.${NC}"
-apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" software-properties-common \
-    sudo git wget curl ufw fail2ban nano >/dev/null 2>&1
+echo -e "Installing required packages, it may take some time to finish...${NC}"
+apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" sudo git wget curl ufw fail2ban nano >/dev/null 2>&1
 if [ "$?" -gt "0" ];
   then
     echo -e "${RED}Not all required packages were installed properly. Try to install them manually by running the following commands:${NC}\n"
     echo "apt-get update"
-    echo "apt -y install software-properties-common sudo git wget curl ufw fail2ban nano"
+    echo "apt -y install sudo git wget curl ufw fail2ban nano"
  exit 1
 fi
 clear
