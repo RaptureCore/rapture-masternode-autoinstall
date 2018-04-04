@@ -37,14 +37,14 @@ function download_node() {
   echo -e "${GREEN}Prepare to download $COIN_NAME${NC}"
   echo -e "Please be patient and wait a moment..."
   echo -e "------------------------------------------------------------------"
-  #wget $COIN_TGZ
+  wget $COIN_TGZ
   clear
-  #tar -xvf $COIN_ZIP
-  #chmod +x $COIN_DAEMON
-  #chmod +x $COIN_CLI
+  tar -xvf $COIN_ZIP
+  chmod +x $COIN_DAEMON
+  chmod +x $COIN_CLI
   cp $COIN_DAEMON $COIN_CLI $COIN_PATH
   cd - >/dev/null 2>&1
-  #rm rapturecore-1.1.1-linux64.tar.gz >/dev/null 2>&1
+  rm rapturecore-1.1.1-linux64.tar.gz >/dev/null 2>&1
   clear
 }
 
