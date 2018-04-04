@@ -95,7 +95,6 @@ function create_config() {
   RPCUSER=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w10 | head -n1)
   RPCPASSWORD=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w22 | head -n1)
   cat << EOF > $CONFIGFOLDER/$CONFIG_FILE
-daemon=1
 rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
 EOF
@@ -126,10 +125,11 @@ clear
 function update_config() {
   sed -i 's/daemon=1/daemon=0/' $CONFIGFOLDER/$CONFIG_FILE
   cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
-maxconnections=50
+daemon=1
 masternode=1
 externalip=$NODEIP
 masternodeprivkey=$COINKEY
+maxconnections=50
 EOF
 }
 
