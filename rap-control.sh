@@ -40,7 +40,10 @@ do
      ;;   
   i) grep CRON /var/log/syslog
      ((counter+=1))
-     ;;   
+     ;; 
+  k) ufw status
+     ((counter+=1))
+     ;;    
   ?) $usage
      exit 0
      ;;
