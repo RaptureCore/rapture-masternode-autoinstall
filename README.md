@@ -17,9 +17,9 @@ bash rapture-setup.sh
 -d checks the autostart of the RAPTURE service when the server is starting
 -e masternode sync status
 -f masternode status
--g check of the sentinel logfile
+-g look in the sentinel logfile
 -h help - usage for this script
--i check the cronjob logfile
+-i look in the cronjob logfile
 -k firewall status
 -l show rapture.conf
 ```
