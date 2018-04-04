@@ -98,10 +98,6 @@ function create_config() {
 daemon=1
 rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
-maxconnections=50
-masternode=1
-externalip=$NODEIP
-masternodeprivkey=$COINKEY
 EOF
 }
 
@@ -128,13 +124,13 @@ clear
 }
 
 function update_config() {
-  #sed -i 's/daemon=1/daemon=0/' $CONFIGFOLDER/$CONFIG_FILE
-  #cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
-daemon=1
+  sed -i 's/daemon=1/daemon=0/' $CONFIGFOLDER/$CONFIG_FILE
+  cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
 maxconnections=50
 masternode=1
 externalip=$NODEIP
 masternodeprivkey=$COINKEY
+EOF
 }
 
 function enable_firewall() {
