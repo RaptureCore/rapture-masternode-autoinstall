@@ -60,8 +60,8 @@ Group=root
 
 Type=forking
 
-ExecStart=$COIN_DAEMON
-ExecStop=$COIN_CLI stop
+ExecStart=/root/$COIN_DAEMON
+ExecStop=/root/$COIN_CLI stop
 
 Restart=always
 PrivateTmp=true
