@@ -60,8 +60,8 @@ Group=root
 
 Type=forking
 
-ExecStart=$COIN_DAEMON
-ExecStop=-$COIN_CLI stop
+ExecStart=.$COIN_DAEMON
+ExecStop=.$COIN_CLI stop
 
 Restart=always
 PrivateTmp=true
@@ -92,8 +92,8 @@ EOF
 
 function create_config() {
   mkdir $CONFIGFOLDER >/dev/null 2>&1
-  RPCUSER=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w10 | head -n1)
-  RPCPASSWORD=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w22 | head -n1)
+  RPCUSER=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w15 | head -n1)
+  RPCPASSWORD=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w25 | head -n1)
   cat << EOF > $CONFIGFOLDER/$CONFIG_FILE
 rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
