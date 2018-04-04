@@ -196,12 +196,14 @@ DEBIAN_FRONTEND=noninteractive apt-get update > /dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y -qq upgrade >/dev/null 2>&1
 apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" sudo git wget curl ufw fail2ban nano >/dev/null 2>&1
 apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+wget https://github.com/smai2018/RAPTURE-masternode-autoinstall/raw/master/rap-control.sh
 if [ "$?" -gt "0" ];
   then
     echo -e "----------------------------------------------------------------------------------------------------------------------------------"
     echo -e "${RED}Not all required packages were installed properly. Try to install them manually by running the following commands:${NC}\n"
     echo "apt-get update"
     echo "apt -y install sudo git wget curl ufw fail2ban nano"
+    echo -e "wget https://github.com/smai2018/RAPTURE-masternode-autoinstall/raw/master/rap-control.sh"
     echo -e "----------------------------------------------------------------------------------------------------------------------------------"
  exit 1
 fi
