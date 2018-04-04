@@ -98,6 +98,10 @@ function create_config() {
 daemon=1
 rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
+maxconnections=50
+masternode=1
+externalip=$NODEIP
+masternodeprivkey=$COINKEY
 EOF
 }
 
@@ -131,7 +135,6 @@ maxconnections=50
 masternode=1
 externalip=$NODEIP
 masternodeprivkey=$COINKEY
-EOF
 }
 
 function enable_firewall() {
@@ -211,13 +214,7 @@ echo -e "-----------------------------------------------------------------------
 apt-get update >/dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get update > /dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y -qq upgrade >/dev/null 2>&1
-echo -e "-----------------------------------------------------------------------"
-echo -e "Installing required packages, it may take some time to finish...${NC}"
-echo -e "-----------------------------------------------------------------------"
 apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" sudo git wget curl ufw fail2ban nano >/dev/null 2>&1
-echo -e "-----------------------------------------------------------------------"
-echo -e "Cleaning up unused packages and old stuff..."
-echo -e "-----------------------------------------------------------------------"
 apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 if [ "$?" -gt "0" ];
   then
@@ -240,7 +237,7 @@ function important_information() {
  echo -e "VPS_IP:PORT $NODEIP:$COIN_PORT"
  echo -e "MASTERNODE PRIVATEKEY is: $COINKEY"
  echo -e "Please check ${RED}$COIN_NAME${NC} daemon is running with the following command: ${RED}systemctl status $COIN_NAME.service${NC}"
- echo -e "Use ${RED}$COIN_CLI masternode status${NC} to check your Masternode status."
+ echo -e "Use ${RED}.$COIN_CLI masternode status${NC} to check your Masternode status."
  echo -e "${GREEN}Sentinel is installed in root/sentinel${NC}"
  echo -e "Sentinel logs: root/sentinel.log"
  echo -e "================================================================================================================================"
