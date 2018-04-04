@@ -39,7 +39,7 @@ function download_node() {
   echo -e "------------------------------------------------------------------"
   wget $COIN_TGZ
   clear
-  tar -xvf $COIN_ZIP
+  tar -xvf $COIN_ZIP-linux64.tar.gz
   chmod +x $COIN_DAEMON
   chmod +x $COIN_CLI
   cp $COIN_DAEMON $COIN_CLI $COIN_PATH
@@ -219,7 +219,7 @@ function important_information() {
  echo -e "VPS_IP:PORT $NODEIP:$COIN_PORT"
  echo -e "MASTERNODE PRIVATEKEY is: $COINKEY"
  echo -e "Please check ${RED}$COIN_NAME${NC} daemon is running with the following command: ${RED}systemctl status $COIN_NAME.service${NC}"
- echo -e "Use ${RED}$COIN_CLI masternode status${NC} to check your Masternode status."
+ echo -e "Use ${RED}/$COIN_CLI masternode status${NC} to check your Masternode status."
  echo -e "${GREEN}Sentinel is installed in /root/sentinel/sentinel${NC}"
  echo -e "Sentinel logs: root/sentinel.log"
  echo -e "================================================================================================================================"
