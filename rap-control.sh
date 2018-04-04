@@ -3,15 +3,9 @@
 if [[ $USER != "root" ]]; then 
 		echo "This script must be run as root!" 
 		exit 1
-	fi
-if [ $counter -eq 1 ];then
-  exit 0
-else
-  echo $usage
-  exit 1
 fi
-#usage="./rap-control.sh -a"
-usage echo -e "\nUsage:\n__g5_token5ac4cc643c0ac [arguments] \n"
+
+usage="./rap-control.sh [arguments]"
 VERBOSE=true
 counter="0"
 
@@ -29,7 +23,8 @@ do
   c) systemctl status RAPTURE
      ((counter+=1))
      ;;
-  d) systemctl is-enabled RAPTURE.service
+  d) systemctl is-enabled RAPTURE
+     ((counter+=1))
      ;;
   e) /root/rapturecore-1.1.1/bin/rapture-cli mnsync status
      ((counter+=1))
@@ -51,3 +46,10 @@ do
      ;;
   esac
 done
+
+if [ $counter -eq 1 ];then
+  exit 0
+else
+  echo $usage
+  exit 1
+fi
