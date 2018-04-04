@@ -43,7 +43,7 @@ function download_node() {
   #chmod +x $COIN_DAEMON
   #chmod +x $COIN_CLI
   cp $COIN_DAEMON $COIN_CLI $COIN_PATH
-  #cd - >/dev/null 2>&1
+  cd - >/dev/null 2>&1
   #rm rapturecore-1.1.1-linux64.tar.gz >/dev/null 2>&1
   clear
 }
@@ -60,8 +60,8 @@ Group=root
 
 Type=forking
 
-ExecStart=$COIN_PATH$COIN_DAEMON
-ExecStop=-$COIN_PATH$COIN_CLI stop
+ExecStart=$COIN_DAEMON
+ExecStop=-$COIN_CLI stop
 
 Restart=always
 PrivateTmp=true
@@ -126,6 +126,7 @@ clear
 function update_config() {
   #sed -i 's/daemon=1/daemon=0/' $CONFIGFOLDER/$CONFIG_FILE
   #cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
+daemon=1
 maxconnections=50
 masternode=1
 externalip=$NODEIP
