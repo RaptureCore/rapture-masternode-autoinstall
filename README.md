@@ -9,7 +9,7 @@ bash rapture-setup.sh
 ## Usage control script:
 
 ```
-rap-control.sh 
+./rap-control.sh -[argument]
 
 -a start RAPTURE service
 -b stop RAPTURE service
@@ -22,7 +22,6 @@ rap-control.sh
 -i check the cronjob logfile
 -k firewall status
 -l show rapture.conf
-
 ```
 ## Donations
 
