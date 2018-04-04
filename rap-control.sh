@@ -9,7 +9,7 @@ usage="./rap-control.sh [arguments]"
 VERBOSE=true
 counter="0"
 
-while getopts 'abcdefghi?' option
+while getopts 'abcdefghikl?' option
 do
   case "$option" in
   a) systemctl start RAPTURE
@@ -37,13 +37,16 @@ do
      ;;
   h) $usage
      ((counter+=1))
-     ;;   
+     ;; 
   i) grep CRON /var/log/syslog
      ((counter+=1))
-     ;; 
+     ;;
   k) ufw status
      ((counter+=1))
-     ;;    
+     ;;
+  l) cat .rapturecore/rapture.conf
+     ((counter+=1))
+     ;;
   ?) $usage
      exit 0
      ;;
