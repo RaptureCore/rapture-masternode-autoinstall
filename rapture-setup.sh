@@ -27,7 +27,7 @@ function install_sentinel() {
   cd sentinel
   virtualenv ./venv >/dev/null 2>&1
   ./venv/bin/pip install -r requirements.txt >/dev/null 2>&1
-  echo  "* * * * * cd root/sentinel && ./venv/bin/python bin/sentinel.py >> root/sentinel.log 2>&1" > $COIN_NAME.cron
+  echo  "* * * * * cd root/sentinel && ./venv/bin/python bin/sentinel.py >> sentinel.log 2>&1" > $COIN_NAME.cron
   crontab $COIN_NAME.cron
   rm $COIN_NAME.cron >/dev/null 2>&1
 }
@@ -220,7 +220,7 @@ function important_information() {
  echo -e "MASTERNODE PRIVATEKEY is: $COINKEY"
  echo -e "Please check ${RED}$COIN_NAME${NC} daemon is running with the following command: ${RED}systemctl status $COIN_NAME.service${NC}"
  echo -e "Use ${RED}$COIN_CLI masternode status${NC} to check your Masternode status."
- echo -e "${GREEN}Sentinel is installed in root/sentinel${NC}"
+ echo -e "${GREEN}Sentinel is installed in /root/sentinel/sentinel${NC}"
  echo -e "Sentinel logs: root/sentinel.log"
  echo -e "================================================================================================================================"
 }
