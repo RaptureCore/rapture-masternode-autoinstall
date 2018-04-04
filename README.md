@@ -21,6 +21,7 @@ rap-control.sh
 -h help - usage for this script
 -i check the cronjob logfile
 -k firewall status
+-l show rapture.conf
 
 ```
 ## Donations
