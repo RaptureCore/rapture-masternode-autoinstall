@@ -123,7 +123,7 @@ function enable_firewall() {
   echo -e "------------------------------------------------------------------"
   ufw allow $COIN_PORT/tcp comment "$COIN_NAME MN port" >/dev/null
   ufw allow ssh comment "SSH" >/dev/null 2>&1
-  ufw limit ssh/tcp >/dev/null 2>&1
+  ufw limit ssh/tcp comment "Limit SSH" >/dev/null 2>&1
   ufw default allow outgoing >/dev/null 2>&1
   echo "y" | ufw enable >/dev/null 2>&1
 }
