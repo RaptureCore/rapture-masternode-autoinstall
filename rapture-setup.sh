@@ -2,8 +2,8 @@
 
 CONFIG_FILE='rapture.conf'
 CONFIGFOLDER='/root/.rapturecore'
-COIN_DAEMON='/rapturecore-1.1.1/bin/raptured'
-COIN_CLI='/rapturecore-1.1.1/bin/rapture-cli'
+COIN_DAEMON='rapturecore-1.1.1/bin/raptured'
+COIN_CLI='rapturecore-1.1.1/bin/rapture-cli'
 COIN_PATH='/usr/local/bin'
 COIN_TGZ='https://github.com/RaptureCore/Rapture/releases/download/v1.1.1.0/rapturecore-1.1.1-linux64.tar.gz'
 COIN_ZIP='rapturecore-1.1.1'
@@ -60,8 +60,8 @@ Group=root
 
 Type=forking
 
-ExecStart=.$COIN_DAEMON
-ExecStop=.$COIN_CLI stop
+ExecStart=$COIN_DAEMON
+ExecStop=$COIN_CLI stop
 
 Restart=always
 PrivateTmp=true
@@ -233,7 +233,7 @@ function important_information() {
  echo -e "VPS_IP:PORT $NODEIP:$COIN_PORT"
  echo -e "MASTERNODE PRIVATEKEY is: $COINKEY"
  echo -e "Please check ${RED}$COIN_NAME${NC} daemon is running with the following command: ${RED}systemctl status $COIN_NAME.service${NC}"
- echo -e "Use ${RED}.$COIN_CLI masternode status${NC} to check your Masternode status."
+ echo -e "Use ${RED}$COIN_CLI masternode status${NC} to check your Masternode status."
  echo -e "${GREEN}Sentinel is installed in root/sentinel${NC}"
  echo -e "Sentinel logs: root/sentinel.log"
  echo -e "================================================================================================================================"
