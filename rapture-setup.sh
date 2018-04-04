@@ -27,7 +27,7 @@ function install_sentinel() {
   cd sentinel
   virtualenv ./venv >/dev/null 2>&1
   ./venv/bin/pip install -r requirements.txt >/dev/null 2>&1
-  echo  "* * * * * cd root/sentinel && ./venv/bin/python bin/sentinel.py >> sentinel.log 2>&1" > $COIN_NAME.cron
+  echo  "* * * * * cd /root/sentinel && ./venv/bin/python bin/sentinel.py >> sentinel.log 2>&1" > $COIN_NAME.cron
   crontab $COIN_NAME.cron
   rm $COIN_NAME.cron >/dev/null 2>&1
 }
