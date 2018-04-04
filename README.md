@@ -11,26 +11,18 @@ bash rapture-setup.sh
 ```
 rap-control.sh 
 
--a start the RAPTURE service
--b stop the RAPTURE service
--c status of the RAPTURE service
+-a start RAPTURE service
+-b stop RAPTURE service
+-c status RAPTURE service
 -d checks the autostart of the RAPTURE service when the server is starting
--e staus of masternode sync (mnsync status)
--f status of the masternode (masternode status)
+-e masternode sync status
+-f masternode status
 -g check of the sentinel logfile
 -h help - usage for this script
 -i check the cronjob logfile
+-k firewall status
 
 ```
-If you want to check/start/stop **RAPTURE**, run one of the following commands as **root**:
-
-```
-systemctl status RAP #To check if RAPTURE service is running
-systemctl start RAP #To start RAPTURE service
-systemctl stop RAP #To stop RAPTURE service
-systemctl is-enabled RAP #To check if RAPTURE service is enabled on boot
-```
-
 ## Donations
 
 Any donation is highly appreciated
