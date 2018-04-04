@@ -218,7 +218,7 @@ apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--fo
 echo -e "-----------------------------------------------------------------------"
 echo -e "Cleaning up unused packages and old stuff..."
 echo -e "-----------------------------------------------------------------------"
-apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 if [ "$?" -gt "0" ];
   then
     echo -e "----------------------------------------------------------------------------------------------------------------------------------"
