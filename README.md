@@ -1,6 +1,8 @@
 # RAPTURE
 Shell script to install a [RAPTURE Masternode](https://our-rapture.com/) on a Linux server running Ubuntu 16.04. Use it on your own risk.
 
+Manual: https://goo.gl/aUnVqq
+
 ## Installation
 ```
 wget https://github.com/smai2018/RAPTURE-masternode-autoinstall/raw/master/rapture-setup.sh
