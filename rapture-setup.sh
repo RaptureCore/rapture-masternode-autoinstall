@@ -82,8 +82,8 @@ EOF
   if [[ -z "$(ps axo cmd:100 | egrep $COIN_DAEMON)" ]]; then
     echo -e "------------------------------------------------------------------------------------------------------------------------"
     echo -e "${RED}$COIN_NAME is not running${NC}, please investigate. You should start by running the following commands as root:"
-    echo -e "systemctl start $COIN_NAME.service"
-    echo -e "systemctl status $COIN_NAME.service"
+    echo -e "systemctl start $COIN_NAME"
+    echo -e "systemctl status $COIN_NAME"
     echo -e "less /var/log/syslog"
     echo -e "------------------------------------------------------------------------------------------------------------------------"
     exit 1
@@ -188,7 +188,8 @@ fi
 
 function prepare_system() {
 echo -e "-----------------------------------------------------------------------"
-echo -e "Prepare the system to install ${GREEN}$COIN_NAME${NC} master node."
+echo -e "Prepare the system to install ${GREEN}$COIN_NAME${NC} master node"
+echo -e "Loading updates for Ubuntu, installing tools..."
 echo -e "Please be patient and wait a moment..."
 echo -e "-----------------------------------------------------------------------"
 apt-get update >/dev/null 2>&1
