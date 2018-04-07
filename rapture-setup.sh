@@ -18,7 +18,6 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 function install_sentinel() {
-  apt-get install -y python-virtualenv virtualenv >/dev/null 2>&1
   git clone $SENTINEL_REPO >/dev/null 2>&1
   cd sentinel
   virtualenv ./venv >/dev/null 2>&1
@@ -191,7 +190,7 @@ echo -e "-----------------------------------------------------------------------
 apt-get update >/dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get update > /dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y -qq upgrade >/dev/null 2>&1
-apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" sudo git wget curl ufw fail2ban nano >/dev/null 2>&1
+apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" sudo git wget curl ufw fail2ban nano python-virtualenv virtualenv >/dev/null 2>&1
 apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 wget https://github.com/smai2018/RAPTURE-masternode-autoinstall/raw/master/rap-control.sh && chmod +x rap-control.sh
 if [ "$?" -gt "0" ];
@@ -199,7 +198,7 @@ if [ "$?" -gt "0" ];
     echo -e "----------------------------------------------------------------------------------------------------------------------------------"
     echo -e "${RED}Not all required packages were installed properly. Try to install them manually by running the following commands:${NC}\n"
     echo "apt-get update"
-    echo "apt -y install sudo git wget curl ufw fail2ban nano"
+    echo "apt -y install sudo git wget curl ufw fail2ban nano python-virtualenv virtualenv"
     echo -e "wget https://github.com/smai2018/RAPTURE-masternode-autoinstall/raw/master/rap-control.sh"
     echo -e "----------------------------------------------------------------------------------------------------------------------------------"
  exit 1
