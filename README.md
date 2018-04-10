@@ -24,6 +24,7 @@ bash rapture-setup.sh
 -i look in the cronjob logfile
 -k firewall status
 -l show rapture.conf
+-m show firewall log
 ```
 ## Donations
 
