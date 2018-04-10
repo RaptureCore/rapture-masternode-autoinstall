@@ -47,6 +47,9 @@ do
   l) cat .rapturecore/rapture.conf
      ((counter+=1))
      ;;
+  m) more /var/log/ufw.log
+     ((counter+=1))
+     ;;
   ?) $usage
      exit 0
      ;;
