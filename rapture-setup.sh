@@ -120,6 +120,7 @@ function enable_firewall() {
   ufw allow ssh comment "SSH" >/dev/null 2>&1
   ufw limit ssh/tcp comment "Limit SSH" >/dev/null 2>&1
   ufw default allow outgoing >/dev/null 2>&1
+  ufw logging on >/dev/null 2>&1
   echo "y" | ufw enable >/dev/null 2>&1
 }
 
