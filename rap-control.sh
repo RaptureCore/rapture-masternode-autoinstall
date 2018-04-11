@@ -9,7 +9,7 @@ usage="./rap-control.sh [arguments]"
 VERBOSE=true
 counter="0"
 
-while getopts 'abcdefghikl?' option
+while getopts 'abcdefghiklm?' option
 do
   case "$option" in
   a) systemctl start RAPTURE
