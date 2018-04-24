@@ -30,5 +30,6 @@ bash rapture-setup.sh
 
 Any donation is highly appreciated
 
-**RAP**: RT3p6q5xG8vCcfCNjQERGZfgRRcoWqU6LW 
-DISCORD: tom_ua#5072
+**RAP**: RT3p6q5xG8vCcfCNjQERGZfgRRcoWqU6LW
+
+**DISCORD**: tom_ua#5072
