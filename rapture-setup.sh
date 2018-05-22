@@ -2,11 +2,11 @@
 
 CONFIG_FILE='rapture.conf'
 CONFIGFOLDER='/root/.rapturecore'
-COIN_DAEMON='rapturecore-1.1.1/bin/raptured'
-COIN_CLI='rapturecore-1.1.1/bin/rapture-cli'
+COIN_DAEMON='rapturecore-1.1.2/bin/raptured'
+COIN_CLI='rapturecore-1.1.2/bin/rapture-cli'
 COIN_PATH='/usr/local/bin'
-COIN_TGZ='https://github.com/RaptureCore/Rapture/releases/download/v1.1.1.0/rapturecore-1.1.1-linux64.tar.gz'
-COIN_ZIP='rapturecore-1.1.1'
+COIN_TGZ='https://github.com/RaptureCore/Rapture/releases/download/v1.1.2.2/rapturecore-1.1.2-linux64.tar.gz'
+COIN_ZIP='rapturecore-1.1.2'
 SENTINEL_REPO='https://github.com/RaptureCore/sentinel.git'
 COIN_NAME='RAPTURE'
 COIN_PORT='14777'
@@ -39,7 +39,7 @@ function download_node() {
   chmod +x $COIN_CLI
   cp $COIN_DAEMON $COIN_CLI $COIN_PATH
   cd - >/dev/null 2>&1
-  rm rapturecore-1.1.1-linux64.tar.gz >/dev/null 2>&1
+  rm rapturecore-1.1.2-linux64.tar.gz >/dev/null 2>&1
   clear
 }
 
@@ -108,7 +108,7 @@ daemon=1
 masternode=1
 externalip=$NODEIP
 masternodeprivkey=$COINKEY
-maxconnections=50
+maxconnections=65
 EOF
 }
 
@@ -198,14 +198,14 @@ export LC_CTYPE="en_US.UTF-8" >/dev/null 2>&1
 locale-gen --purge >/dev/null 2>&1
 
 apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-wget https://github.com/RaptureCore/rapture-masternode-autoinstall/raw/master/rap-control.sh && chmod +x rap-control.sh
+wget https://github.com/smai2018/RAPTURE-masternode-autoinstall/raw/master/rap-control.sh && chmod +x rap-control.sh
 if [ "$?" -gt "0" ];
   then
     echo -e "----------------------------------------------------------------------------------------------------------------------------------"
     echo -e "${RED}Not all required packages were installed properly. Try to install them manually by running the following commands:${NC}\n"
     echo "apt-get update"
     echo "apt -y install sudo git wget curl ufw fail2ban nano python-virtualenv virtualenv"
-    echo -e "wget https://github.com/RaptureCore/rapture-masternode-autoinstall/raw/master/rap-control.sh"
+    echo -e "wget https://github.com/smai2018/RAPTURE-masternode-autoinstall/raw/master/rap-control.sh"
     echo -e "----------------------------------------------------------------------------------------------------------------------------------"
  exit 1
 fi

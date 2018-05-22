@@ -26,10 +26,10 @@ do
   d) systemctl is-enabled RAPTURE
      ((counter+=1))
      ;;
-  e) /root/rapturecore-1.1.1/bin/rapture-cli mnsync status
+  e) /root/rapturecore-1.1.2/bin/rapture-cli mnsync status
      ((counter+=1))
      ;;
-  f) /root/rapturecore-1.1.1/bin/rapture-cli masternode status
+  f) /root/rapturecore-1.1.2/bin/rapture-cli masternode status
      ((counter+=1))
      ;;
   g) cat /root/sentinel/sentinel.log
